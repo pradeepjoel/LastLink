@@ -1,0 +1,15 @@
+services:
+  api:
+    build: ./backend
+    ports: ["8000:8000"]
+    volumes: ["./data:/app/data"]
+    environment:
+      LASTLINK_DB: /app/data/lastlink.sqlite
+      LASTLINK_REGIONAL_DB: /app/data/zou-express.sqlite
+  web:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports: ["3000:3000"]
+    depends_on: [api]
